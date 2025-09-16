@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScrolling();
     initTypingEffect();
     initParallaxEffects();
+    initProjectFilter();
 });
 
 // Theme Toggle Functionality
@@ -459,3 +460,37 @@ function initAnalytics() {
 
 // Initialize analytics
 initAnalytics();
+
+// Project Filter Functionality
+function initProjectFilter() {
+    const filterBtns = document.querySelectorAll('.project-filter .filter-btn');
+    const projectCards = document.querySelectorAll('.projects-grid .project-card');
+    const noProjectsMsg = document.getElementById('no-projects-message');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const filter = this.getAttribute('data-filter');
+            let visibleCount = 0;
+
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                if (filter === 'all' || category === filter) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noProjectsMsg.style.display = 'block';
+            } else {
+                noProjectsMsg.style.display = 'none';
+            }
+        });
+    });
+}
