@@ -1,67 +1,73 @@
-# Deployment Guide
+# Deployment Guide – Full Laravel Application
 
-## Quick Start
+The portfolio now runs as a standard Laravel application. That means you **must** deploy to a PHP-capable host
+(shared hosting, VPS, Laravel Forge/Ploi, Vapor, etc.). Static-only hosts such as Netlify or Vercel no longer work
+because they cannot execute `php artisan` or route requests through `public/index.php`.
 
-1. **Customize Content**: Update personal info in `index.html`
-2. **Add Images**: Place your images in the `assets/` folder
-3. **Configure Email**: Update `contact.php` with your email settings
-4. **Deploy**: Choose one of the deployment options below
+## 1. Production requirements
 
-## Deployment Options
+- PHP 8.2 or newer with the extensions required by Laravel (bcmath, ctype, fileinfo, json, mbstring, openssl, pdo, tokenizer, xml).
+- Composer 2.x
+- Web server pointing the document root to the project’s `public/` directory.
+- Writable `storage/` and `bootstrap/cache/` directories.
 
-### 🚀 Netlify (Recommended)
-```bash
-# Connect your GitHub repo to Netlify
-# Netlify will auto-deploy using netlify.toml
-```
+## 2. Deployment steps
 
-### ⚡ Vercel
-```bash
-npm install -g vercel
-vercel --prod
-```
+1. **Upload / clone the project**
+   ```bash
+   git clone <repo> portfolio
+   cd portfolio
+   cp .env.example .env
+   composer install --optimize-autoloader --no-dev
+   php artisan key:generate
+   php artisan migrate --force    # optional (SQLite file already present)
+   npm install && npm run build   # optional, only if you start using Vite assets
+   ```
 
-### 🌐 Shared Hosting (PHP Support)
-1. Upload all files via FTP/cPanel
-2. Update email settings in `contact.php`
-3. Test contact form
+2. **Configure .env**
+   - `APP_NAME="Khiane Portfolio"`
+   - `APP_ENV=production`
+   - `APP_URL=https://your-domain.com`
+   - Update mail settings if you plan to send e-mail from the contact form.
 
-### 📱 GitHub Pages
-1. Push to GitHub repository
-2. Enable Pages in repository settings
-3. Select source branch
+3. **Optimize for production**
+   ```bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
 
-## Custom Domain Setup
+4. **Set file permissions**
+   - `storage/` and `bootstrap/cache/` should be writable by the web server user.
 
-1. **DNS Configuration**:
-   - Add A record pointing to hosting IP
-   - Add CNAME for www subdomain
+5. **Point the web server to /public**
+   - Apache: update the VirtualHost `DocumentRoot`.
+   - Nginx: `root /path/to/project/public;` and include Laravel’s `try_files` rule.
 
-2. **SSL Certificate**:
-   - Enable HTTPS in hosting control panel
-   - Update `.htaccess` for HTTPS redirect
+## 3. Scheduler & queue (optional)
 
-## Performance Checklist
+If you later add scheduled tasks or queued jobs:
+- Add a cron entry: `* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1`
+- Run a queue worker: `php artisan queue:work --daemon`
 
-- [ ] Optimize images (WebP format)
-- [ ] Enable compression
-- [ ] Set cache headers
-- [ ] Test on mobile devices
-- [ ] Validate HTML/CSS
-- [ ] Test contact form
+## 4. SSL / HTTPS
 
-## Troubleshooting
+Always force HTTPS using your web server (e.g., Apache rewrite or Nginx `return 301 https://$host$request_uri;`).
+Then set `APP_URL` to the HTTPS URL and enable HSTS if desired.
 
-**Contact form not working?**
-- Check PHP mail function is enabled
-- Verify email settings in `contact.php`
-- Check server error logs
+## 5. Troubleshooting
 
-**Images not loading?**
-- Verify file paths in HTML
-- Check file permissions
-- Ensure images are optimized
+- **500 errors**: check `storage/logs/laravel.log`.
+- **Permission errors**: ensure `storage/` + `bootstrap/cache/` are writable.
+- **Asset 404s**: confirm the web server points to `public/` and the files exist in `public/assets`, `public/css`, `public/js`.
+- **Contact form e-mails**: configure `MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, etc.
+- **SQLite issues**: ensure `database/database.sqlite` exists and is writable.
 
-**Dark mode not persisting?**
-- Check browser localStorage support
-- Verify JavaScript is enabled
+## 6. Going serverless?
+
+If you need a serverless option, consider Laravel Vapor (AWS Lambda) or Bref on AWS. They allow full Laravel apps to
+run in serverless environments but require additional setup beyond this guide.
+
+---
+
+Need help? Run `php artisan about` for a quick diagnostic summary or consult the main `README.md`.
