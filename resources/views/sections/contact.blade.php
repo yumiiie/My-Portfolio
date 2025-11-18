@@ -49,7 +49,8 @@
                     </a>
                 </div>
             </div>
-            <form name="contact" method="POST" netlify netlify-honeypot="bot-field">
+            <form name="contact" method="POST" action="/contact">
+                @csrf
                 <input type="hidden" name="form-name" value="contact" />
                 <p style="display:none">
                     <label>Don't fill this out if you're human: <input name="bot-field" /></label>

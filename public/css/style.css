@@ -1,9 +1,9 @@
 /* CSS Variables for Theme Management */
 :root {
   /* Light Theme Colors */
-  --primary-color: #6366f1;
-  --primary-dark: #4f46e5;
-  --secondary-color: #10b981;
+  --primary-color: #8B6F47;
+  --primary-dark: #6F4E37;
+  --secondary-color: #E8D5C4;
   --accent-color: #f59e0b;
   
   --bg-primary: #ffffff;
@@ -80,6 +80,9 @@
   --shadow-light: var(--dark-shadow-light);
   --shadow-medium: var(--dark-shadow-medium);
   --shadow-large: var(--dark-shadow-large);
+  --primary-color: #E8D5C4;
+  --primary-dark: #fff6ee;
+  --secondary-color: #8B6F47;
 }
 
 /* Reset and Base Styles */
@@ -566,7 +569,7 @@ section {
   border-radius: 999px;
   font-size: var(--font-size-xs);
   font-weight: 600;
-  box-shadow: 0 2px 8px 0 rgba(99,102,241,0.08);
+  box-shadow: 0 2px 8px 0 rgba(232,213,196,0.08);
   letter-spacing: 0.03em;
   border: none;
   transition: background 0.2s;
@@ -605,7 +608,7 @@ section {
 .tech-tag:hover {
   background: var(--primary-color);
   color: #fff;
-  box-shadow: 0 4px 16px 0 rgba(99,102,241,0.12);
+  box-shadow: 0 4px 16px 0 rgba(232,213,196,0.12);
 }
 
 /* Project Filter Styles */
@@ -758,7 +761,7 @@ section {
   align-items: center;
 }
 .certificate-card:hover, .certificate-card:focus {
-  box-shadow: 0 16px 40px 0 rgba(99,102,241,0.18);
+  box-shadow: 0 16px 40px 0 rgba(232,213,196,0.18);
   transform: translateY(-6px) scale(1.02);
   border-color: var(--secondary-color);
 }
@@ -778,7 +781,7 @@ section {
   max-height: 90%;
   object-fit: contain;
   border-radius: var(--radius-lg);
-  box-shadow: 0 2px 12px 0 rgba(99,102,241,0.10);
+  box-shadow: 0 2px 12px 0 rgba(232,213,196,0.10);
   background: #fff;
   padding: 0.5rem;
 }
@@ -812,7 +815,7 @@ section {
   position: absolute;
   top: -1.2em;
   right: 1.5em;
-  box-shadow: 0 2px 8px 0 rgba(99,102,241,0.10);
+  box-shadow: 0 2px 8px 0 rgba(232,213,196,0.10);
   border: 2px solid #fff;
 }
 
@@ -841,7 +844,7 @@ section {
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border 0.2s;
   pointer-events: all;
-  box-shadow: 0 2px 8px 0 rgba(99,102,241,0.10);
+  box-shadow: 0 2px 8px 0 rgba(232,213,196,0.10);
 }
 .carousel-btn:hover {
   background: var(--primary-color);
@@ -1099,7 +1102,7 @@ section {
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(232, 213, 196, 0.1);
 }
 
 .form-group label {
